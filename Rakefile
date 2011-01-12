@@ -15,8 +15,9 @@ Jeweler::Tasks.new do |gem|
   gem.name = "haversine"
   gem.homepage = "http://github.com/kristianmandrup/haversine"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{Calculates the haversine distance between two locations using longitude and latitude}
+  gem.description = %Q{Calculates the haversine distance between two locations using longitude and latitude. 
+This is done using Math formulas without resorting to Active Record or SQL DB functionality}
   gem.email = "kmandrup@gmail.com"
   gem.authors = ["Kristian Mandrup"]
   # Include your dependencies below. Runtime dependencies are required when using your gem,

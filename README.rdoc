@@ -1,6 +1,9 @@
 = haversine
 
-Description goes here.
+Calculates the haversine distance between two locations using longitude and latitude. 
+This is done using Math formulas without resorting to Active Record or SQL DB functionality
+
+This is meant to ba a replacement for all those geocode and geolocation utils out there that use built in SQL DB functionality for their calculations!
 
 == Contributing to haversine
  
