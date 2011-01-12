@@ -26,6 +26,7 @@ This is done using Math formulas without resorting to Active Record or SQL DB fu
     "README.rdoc",
     "Rakefile",
     "VERSION",
+    "haversine.gemspec",
     "lib/haversine.rb",
     "spec/haversine_spec.rb",
     "spec/spec_helper.rb"
