@@ -10,15 +10,12 @@ describe "Haversine" do
 
     dist = Haversine.distance( lat1, lon1, lat2, lon2 )
 
-    puts "the distance from  #{lat1}, #{lon1} to #{lat2}, #{lon2} is:"
+    puts "the distance from  #{lat1}, #{lon1} to #{lat2}, #{lon2} is: #{dist[:meters].number} meters"
 
-    puts dist[:meters].number
-
-    puts "#{dist[:miles]}"
-    puts "#{dist[:km]}"
     puts "#{dist[:feet]}"
-    puts "#{dist[:meters]}"
-
+    puts "#{dist.meters}"
+    puts "#{dist[:km]}"
+    puts "#{dist[:miles]}"
     dist[:km].to_s.should match(/7\.376*/)
   end
 end

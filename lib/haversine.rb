@@ -30,24 +30,72 @@
  
 # PI = 3.1415926535 
 
+require 'haversine/core_ext'
+
 class Haversine
 
   RAD_PER_DEG = 0.017453293  #  PI/180
  
-  # the great circle distance d will be in whatever units R is in
- 
-  Rmiles = 3956           # radius of the great circle in miles
-  Rkm = 6371              # radius in kilometers...some algorithms use 6367
-  Rfeet = Rmiles * 5282   # radius in feet
-  Rmeters = Rkm * 1000    # radius in meters
-
   # this is global because if computing lots of track point distances, it didn't make 
   # sense to new a Hash each time over potentially 100's of thousands of points
-  
+
+  class << self            
+    def units 
+      [:miles, :km, :feet, :meters]
+    end
+  end
+    
   class Distance
-    class << self
-      
-      [:miles, :km, :feet, :meters].each do |unit|
+    attr_reader :distance
+
+    def initialize distance
+      @distance = distance
+    end
+    
+    def [] key               
+      method = :"delta_#{key}"
+      raise ArgumentError, "Invalid unit key #{key}" if !respond_to? method
+      Distance.send "in_#{key}", send(method)
+    end
+
+    Haversine.units.each do |unit|
+      class_eval %{
+        def #{unit}
+          self[:#{unit}]
+        end
+      }
+    end
+
+    protected
+
+    # the great circle distance d will be in whatever units R is in
+
+    Rmiles = 3956           # radius of the great circle in miles
+    Rkm = 6371              # radius in kilometers...some algorithms use 6367
+    Rfeet = Rmiles * 5282   # radius in feet
+    Rmeters = Rkm * 1000    # radius in meters
+    
+    # delta between the two points in miles
+    def delta_miles 
+      Rmiles * distance
+    end
+    
+    # delta in kilometers
+    def delta_km
+      Rkm * distance
+    end
+    
+    def delta_feet
+      Rfeet * distance
+    end
+    
+    def delta_meters
+      Rmeters * distance
+    end                  
+
+
+    class << self            
+      Haversine.units.each do |unit|
         class_eval %{
           def in_#{unit} number
             Unit.new :#{unit}, number
@@ -63,47 +111,46 @@ class Haversine
         @name = name
         @number = number
       end
+
+      def number
+        @number.round_to(precision[name])
+      end
       
       def to_s
         "#{number} #{name}"
       end
+      
+      private
+      
+      def precision
+        {
+          :feet => 0,
+          :meters => 2,
+          :km => 4,
+          :miles => 4
+        }
+      end      
     end
-  end
-  
-  def self.distances     
-    @distances ||= Hash.new   
   end
  
   # given two lat/lon points, compute the distance between the two points using the haversine formula
   #  the result will be a Hash of distances which are key'd by 'mi','km','ft', and 'm'
  
-  def self.distance( lat1, lon1, lat2, lon2 ) 
+  def self.distance( lat1, lon1, lat2, lon2, units = :meters ) 
     dlon = lon2 - lon1
     dlat = lat2 - lat1
 
-    dlon_rad = dlon * RAD_PER_DEG
-    dlat_rad = dlat * RAD_PER_DEG
-
-    lat1_rad = lat1 * RAD_PER_DEG
-    lon1_rad = lon1 * RAD_PER_DEG
-
-    lat2_rad = lat2 * RAD_PER_DEG
-    lon2_rad = lon2 * RAD_PER_DEG
-
-    # puts "dlon: #{dlon}, dlon_rad: #{dlon_rad}, dlat: #{dlat}, dlat_rad: #{dlat_rad}"
-
-    a = (Math.sin(dlat_rad/2))**2 + Math.cos(lat1_rad) * Math.cos(lat2_rad) * (Math.sin(dlon_rad/2))**2
+    a = calc(dlat, lat1, lat2, dlon)
     c = 2 * Math.atan2( Math.sqrt(a), Math.sqrt(1-a))
 
-    dMi = Rmiles * c          # delta between the two points in miles
-    dKm = Rkm * c             # delta in kilometers
-    dFeet = Rfeet * c         # delta in feet
-    dMeters = Rmeters * c     # delta in meters
+    Distance.new c
+  end  
 
-    distances[:miles] = Distance.in_miles dMi
-    distances[:km] = Distance.in_km dKm
-    distances[:feet] = Distance.in_feet dFeet
-    distances[:meters] = Distance.in_meters dMeters
-    distances
+  def self.calc dlat, lat1, lat2, dlon
+    (Math.sin(dlat.rpd/2))**2 + Math.cos(lat1.rpd) * Math.cos((lat2.rpd)) * (Math.sin(dlon.rpd/2))**2    
+  end
+  
+  def self.wants? unit_opts, unit
+    unit_opts == unit || unit_opts[unit]    
   end
 end 
