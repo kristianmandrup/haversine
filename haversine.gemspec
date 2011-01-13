@@ -5,17 +5,17 @@
 
 Gem::Specification.new do |s|
   s.name = %q{haversine}
-  s.version = "0.1.0"
+  s.version = "0.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Kristian Mandrup"]
-  s.date = %q{2011-01-12}
+  s.date = %q{2011-01-13}
   s.description = %q{Calculates the haversine distance between two locations using longitude and latitude. 
 This is done using Math formulas without resorting to Active Record or SQL DB functionality}
   s.email = %q{kmandrup@gmail.com}
   s.extra_rdoc_files = [
     "LICENSE.txt",
-    "README.rdoc"
+    "README.textile"
   ]
   s.files = [
     ".document",
@@ -23,11 +23,12 @@ This is done using Math formulas without resorting to Active Record or SQL DB fu
     "Gemfile",
     "Gemfile.lock",
     "LICENSE.txt",
-    "README.rdoc",
+    "README.textile",
     "Rakefile",
     "VERSION",
     "haversine.gemspec",
     "lib/haversine.rb",
+    "lib/haversine/core_ext.rb",
     "spec/haversine_spec.rb",
     "spec/spec_helper.rb"
   ]
