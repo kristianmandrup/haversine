@@ -19,7 +19,7 @@ Jeweler::Tasks.new do |gem|
   gem.description = %Q{Calculates the haversine distance between two locations using longitude and latitude. 
 This is done using Math formulas without resorting to Active Record or SQL DB functionality}
   gem.email = "kmandrup@gmail.com"
-  gem.authors = ["Kristian Mandrup"]
+  gem.authors = ["Kristian Mandrup", "Ryan Greenberg"]
   # Include your dependencies below. Runtime dependencies are required when using your gem,
   # and development dependencies are only needed for development (ie running rake tasks, tests, etc)
   #  gem.add_runtime_dependency 'jabber4r', '> 0.1'
