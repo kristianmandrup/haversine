@@ -24,7 +24,9 @@ it "should work" do
   puts "#{dist.meters}"
   puts "#{dist[:km]}"
   puts "#{dist[:miles]}"
+  puts "#{dist.to_miles_}"
   dist[:km].to_s.should match(/7\.376*/)
+  dist.to_kms.to_s.should match(/7\.376*/)  
 end  
 </pre>
 
