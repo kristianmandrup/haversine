@@ -8,6 +8,7 @@ rescue Bundler::BundlerError => e
   exit e.status_code
 end
 require 'rake'
+include Rake::DSL if defined? Rake::DSL
 
 require 'jeweler'
 Jeweler::Tasks.new do |gem|
