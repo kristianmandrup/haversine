@@ -1,31 +1,42 @@
-h1. Haversine - geo distance calculations
+h1. Haversine Distance
 
-Calculates the haversine distance between two locations using longitude and latitude. 
-This is done using Math formulas without resorting to Active Record or SQL DB functionality
+This gem calculates the Haversine distance between two points given their longitude and latitude. This is done using trigonometry without ActiveRecord or SQL. See http://en.wikipedia.org/wiki/Haversine_formula for details on the Haversine formula.
 
-This is meant to ba a replacement for all those geocode and geolocation utils out there that use built in SQL DB functionality for their calculations!
+This is a replacement for all geo libraries that use built-in SQL DB functionality for their calculations.
 
 h2. Install & Usage
 
-<pre>require 'haversine'
+Install this gem with @gem install haversine@. Calling @Haversine.distance@ with four lat/lon coordinates returns a @Haversine::Distance@ object which can provide output in kilometers, meters, miles, or feet.
 
-it "should work" do
-  lon1 = -104.88544
-  lat1 = 39.06546
+<pre>
+require 'haversine'
 
-  lon2 = -104.80
-  lat2 = lat1
+distance = Haversine.distance(35.61488, 139.5813, 48.85341, 2.3488)
 
-  dist = Haversine.distance( lat1, lon1, lat2, lon2 )
+distance.class => Haversine::Distance
+distance.to_miles => 6032.71091869803
+distance.to_kilometers => 9715.47049115903
+distance.to_meters => 9715470.49115903
+distance.to_feet => 31852713.6507256
+</pre>
 
-  puts "the distance from  #{lat1}, #{lon1} to #{lat2}, #{lon2} is: #{dist[:meters].number} meters"
+Convenience aliases for the measurements exist:
+<pre>
+distance.to_kilometers == distance.to_km
+distance.to_meters == distance.to_m
+distance.to_miles == distance.to_mi
+distance.to_feet == distance.to_ft
+</pre>
 
-  puts "#{dist[:feet]}"
-  puts "#{dist.meters}"
-  puts "#{dist[:km]}"
-  puts "#{dist[:miles]}"
-  dist[:km].to_s.should match(/7\.376*/)
-end  
+Note that @to_m@ is the distance in meters, not miles.
+
+If you have lat/lon pairs stored in an array, you can alternately provide two arrays when calling @Haversine.distance@:
+
+<pre>
+require 'haversine'
+new_york_city = [40.71427, -74.00597]
+santiago_chile = [-33.42628, -70.56656]
+Haversine.distance(new_york_city, santiago_chile).to_miles => 5123.73
 </pre>
 
 Note: Haversine is used in the "geo_magic":https://github.com/kristianmandrup/geo_magic gem
@@ -44,4 +55,3 @@ h2. Copyright
 
 Copyright (c) 2011 Kristian Mandrup. See LICENSE.txt for
 further details.
-
