@@ -1,21 +1,31 @@
 require 'spec_helper'
 
-describe "Haversine" do
-  it "should work" do
-    lon1 = -104.88544
-    lat1 = 39.06546
-
-    lon2 = -104.80
-    lat2 = lat1
-
-    dist = Haversine.distance( lat1, lon1, lat2, lon2 )
-
-    puts "the distance from  #{lat1}, #{lon1} to #{lat2}, #{lon2} is: #{dist[:meters].number} meters"
-
-    puts "#{dist[:feet]}"
-    puts "#{dist.meters}"
-    puts "#{dist[:km]}"
-    puts "#{dist[:miles]}"
-    dist[:km].to_s.should match(/7\.376*/)
+describe Haversine do
+  describe "#self.distance" do
+    it "returns Haversine::Distance" do
+      Haversine.distance(0,0,0,0).should be_a(Haversine::Distance)
+    end
+    
+    it "accepts 4 numbers or 2 arrays as arguments" do
+      new_york_city = [40.71427, -74.00597]
+      santiago_chile = [-33.42628, -70.56656]
+      point_dist = Haversine.distance(new_york_city[0], new_york_city[1], santiago_chile[0], santiago_chile[1])
+      array_dist = Haversine.distance(new_york_city, santiago_chile)
+      
+      point_dist.should be_a(Haversine::Distance)
+      array_dist.should be_a(Haversine::Distance)
+      point_dist.to_m.should == array_dist.to_m
+    end
+    
+    it "calculates the distance between the provided lat/lon pairs" do
+      Haversine.distance(0,0,0,0).to_miles.should == 0
+      round_to(6, Haversine.distance(0,0,0,360).to_miles).should == 0
+      round_to(6, Haversine.distance(0,0,360,0).to_miles).should == 0
+    end
+  end
+  
+  # Helpers
+  def round_to(precision, num)
+    (num * 10**precision).round.to_f / 10**precision
   end
 end
