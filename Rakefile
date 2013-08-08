@@ -34,14 +34,14 @@ RSpec::Core::RakeTask.new(:spec) do |spec|
   spec.pattern = FileList['spec/**/*_spec.rb']
 end
 
-RSpec::Core::RakeTask.new(:rcov) do |spec|
+RSpec::Core::RakeTask.new(:coverage) do |spec|
   spec.pattern = 'spec/**/*_spec.rb'
-  spec.rcov = true
+  ENV['COVERAGE'] = 'true'
 end
 
 task :default => :spec
 
-require 'rake/rdoctask'
+require 'rdoc/task'
 Rake::RDocTask.new do |rdoc|
   version = File.exist?('VERSION') ? File.read('VERSION') : ""
 
