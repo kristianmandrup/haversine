@@ -18,6 +18,7 @@ distance.to_miles => 6032.71091869803
 distance.to_kilometers => 9715.47049115903
 distance.to_meters => 9715470.49115903
 distance.to_feet => 31852713.6507256
+distance.to_nautical_miles => 5242.2799481204265
 </pre>
 
 Convenience aliases for the measurements exist:
@@ -26,19 +27,10 @@ distance.to_kilometers == distance.to_km
 distance.to_meters == distance.to_m
 distance.to_miles == distance.to_mi
 distance.to_feet == distance.to_ft
+distance.to_nautical_miles == distance.to_nm
 </pre>
 
 Note that @to_m@ is the distance in meters, not miles.
-
-  puts "#{dist[:feet]}"
-  puts "#{dist.meters}"
-  puts "#{dist[:km]}"
-  puts "#{dist[:miles]}"
-  puts "#{dist.to_mi}"
-  puts "#{dist.to_miles_}"
-  dist[:km].to_s.should match(/7\.376*/)
-  dist.to_km.to_s.should match(/7\.376*/)  
-end  
 
 If you have lat/lon pairs stored in an array, you can alternately provide two arrays when calling @Haversine.distance@:
 
