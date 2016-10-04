@@ -40,7 +40,11 @@ module Haversine
     alias_method :to_nm, :to_nautical_miles
 
     def <=>(other)
-      great_circle_distance <=> other.great_circle_distance
+      if other.respond_to? :great_circle_distance # it's duck if it quacks
+        great_circle_distance <=> other.great_circle_distance
+      else
+        return nil # spitting out nil when objects are not comparable
+      end
     end
   end
 end
