@@ -45,15 +45,17 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<rspec>.freeze, [">= 2.14.0"])
       s.add_development_dependency(%q<bundler>.freeze, [">= 1.3.0"])
       s.add_development_dependency(%q<jeweler>.freeze, [">= 1.8.6"])
+      s.add_development_dependency(%q<simplecov>.freeze, ["~> 0.7", ">= 0.7.1"])
     else
       s.add_dependency(%q<rspec>.freeze, [">= 2.14.0"])
       s.add_dependency(%q<bundler>.freeze, [">= 1.3.0"])
       s.add_dependency(%q<jeweler>.freeze, [">= 1.8.6"])
+      s.add_dependency(%q<simplecov>.freeze, ["~> 0.7", ">= 0.7.1"])
     end
   else
     s.add_dependency(%q<rspec>.freeze, [">= 2.14.0"])
     s.add_dependency(%q<bundler>.freeze, [">= 1.3.0"])
     s.add_dependency(%q<jeweler>.freeze, [">= 1.8.6"])
+    s.add_dependency(%q<simplecov>.freeze, ["~> 0.7", ">= 0.7.1"])
   end
 end
-
