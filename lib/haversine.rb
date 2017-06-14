@@ -16,14 +16,10 @@ module Haversine
   RAD_PER_DEG = Math::PI / 180
 
   # given two lat/lon points, compute the distance between the two points using the haversine formula
-  def self.distance(lat1, lon1, lat2=nil, lon2=nil)
+  def self.distance(*two_point_coordinates)
     # Accept two arrays of points in addition to four coordinates
-    if lat1.is_a?(Array) && lon1.is_a?(Array)
-      lat2, lon2 = lon1
-      lat1, lon1 = lat1
-    elsif lat2.nil? || lon2.nil?
-      raise ArgumentError
-    end
+    lat1, lon1, lat2, lon2 = Array(two_point_coordinates).flatten
+    raise ArgumentError if [lat1, lon1, lat2, lon2].include? nil
 
     dlon = lon2 - lon1
     dlat = lat2 - lat1
